@@ -1,0 +1,29 @@
+{
+  "templateName": "SampleTemplate",
+  "objects": [
+    {
+      "type": "Button",
+      "position": {
+        "x": 100,
+        "y": 200
+      },
+      "size": {
+        "width": 150,
+        "height": 50
+      },
+      "text": "Click Me"
+    },
+    {
+      "type": "Text",
+      "position": {
+        "x": 100,
+        "y": 100
+      },
+      "size": {
+        "width": 200,
+        "height": 30
+      },
+      "text": "Hello, World!"
+    }
+  ]
+}
