@@ -1,10 +1,11 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class ObjectTemplateView : MonoBehaviour
 {
     public ObjectTemplate objectTemplate;
 
-    public ObjectTemplate Create(string name, Vector3 scale, Vector3 position,Vector3 rotation, Color color)
+    public ObjectTemplate Create(string name, Vector3 scale, Vector3 position,Quaternion rotation, Color color)
     {
         return new ObjectTemplate(name, scale, position,rotation, color);
     }
@@ -26,7 +27,8 @@ public class ObjectTemplate
     public string name;
     public PropertyType propertyType;
     public Vector3 scale;
-    public Vector3 position, rotation;
+    public Vector3 position;
+    public Quaternion rotation;
     public Color color;
 
     public Sprite sprite;
@@ -34,7 +36,7 @@ public class ObjectTemplate
 
     // Add more properties as needed
 
-    public ObjectTemplate(string name, Vector2 scale, Vector3 position,Vector3 rotation, Color color)
+    public ObjectTemplate(string name, Vector2 scale, Vector3 position,quaternion rotation, Color color)
     {
         this.name = name;
         this.scale = scale;

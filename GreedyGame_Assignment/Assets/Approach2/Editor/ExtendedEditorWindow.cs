@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEditor;
 using Unity.VisualScripting;
+using System.Drawing;
+using UnityEngine.UI;
 
 class ExtendedEditorWindow : EditorWindow 
 {
@@ -55,11 +57,22 @@ class ExtendedEditorWindow : EditorWindow
             GameObject prefab = Resources.Load<GameObject>("Canvas");
             GameObject uiObject = Instantiate(prefab);
             GameDataObject s = (GameDataObject) property.serializedObject.targetObjects[0];
-            Debug.Log(s.objectTemplate[0].name);
-            // foreach (SerializedProperty property1 in property.serializedObject.GetProperties())
-            // {
-            //     var s =  property1.serializedObject.FindProperty("propertyType");
-            // }
+            Debug.Log(s.objectTemplate[0].propertyType);
+            Resources.Load<GameObject>("Canvas");
+            foreach (var p in s.objectTemplate)
+            {
+                GameObject prefabs = Resources.Load<GameObject>(p.propertyType.ToString());
+                GameObject uiObjects = Instantiate(prefabs, uiObject.transform, true);
+                uiObjects.GetComponent<RectTransform>().localPosition = p.position;
+                uiObjects.GetComponent<RectTransform>().localScale = p.scale;
+
+                if(p.propertyType == PropertyType.Button)
+                {
+                    uiObjects.GetComponent<Button>().image.color = p.color;
+                    uiObjects.GetComponent<Button>().image.sprite = p.sprite;
+                }
+                // uiObjects.GetComponent<RectTransform>().localRotation = p.rotation;
+            }
         }
     }
 

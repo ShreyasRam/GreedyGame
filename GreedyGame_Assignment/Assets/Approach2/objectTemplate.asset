@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: objectTemplate
   m_EditorClassIdentifier: 
   objectTemplate:
-    name: 
-    scale: {x: 0, y: 0, z: 0}
-    position: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0}
+  - name: Square
+    propertyType: 0
+    scale: {x: 1, y: 1, z: 1}
+    position: {x: 55, y: 100, z: 0}
+    rotation: {x: 0.72360677, y: 0.44721362, z: 0.44721362, w: 0.27639323}
+    color: {r: 0.5943396, g: 0.22091489, b: 0.22091489, a: 1}
+    sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+    description: bsdghsfgh

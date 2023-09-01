@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using Unity.Plastic.Newtonsoft.Json;
+using Unity.Mathematics;
 
 public class ObjectTemplateEditorWindow : EditorWindow
 {
@@ -104,7 +105,7 @@ public class ObjectTemplateEditorWindow : EditorWindow
 
     private void SetObjectElement(string elementName)
     {
-        SaveToJSON(elementName, Vector3.one, Vector3.one, Vector3.zero, Color.red);
+        SaveToJSON(elementName, Vector3.one, Vector3.one, Quaternion.identity, Color.red);
         template = JsonUtility.FromJson<ObjectTemplate>(jsonText);
         objDict.Add(elementName, template);
         Debug.Log(objDict.Keys);
@@ -173,7 +174,7 @@ public class ObjectTemplateEditorWindow : EditorWindow
         }
     }
 
-    private void SaveToJSON(string name, Vector3 scale, Vector3 position,Vector3 rotation, Color color)
+    private void SaveToJSON(string name, Vector3 scale, Vector3 position,quaternion rotation, Color color)
     {
         try
         {
