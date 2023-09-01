@@ -1,6 +1,3 @@
-
-
-
 using UnityEngine;
 
 public class ObjectTemplateView : MonoBehaviour
@@ -27,17 +24,29 @@ public class ObjectTemplateView : MonoBehaviour
 public class ObjectTemplate
 {
     public string name;
-    // public Vector3 scale;
-    // public Vector3 position, rotation;
-    // public Color color;
+    public PropertyType propertyType;
+    public Vector3 scale;
+    public Vector3 position, rotation;
+    public Color color;
+
+    public Sprite sprite;
+    public string description;
+
     // Add more properties as needed
 
     public ObjectTemplate(string name, Vector2 scale, Vector3 position,Vector3 rotation, Color color)
     {
         this.name = name;
-        // this.scale = scale;
-        // this.position = position;   
-        // this.rotation = rotation;   
-        // this.color = color; 
+        this.scale = scale;
+        this.position = position;   
+        this.rotation = rotation;   
+        this.color = color; 
     }
+}
+
+public enum PropertyType
+{
+    Button,
+    Image,
+    Text
 }

@@ -11,6 +11,8 @@ public class ObjectTemplateEditorWindow : EditorWindow
     public RectTransform panelParent;
     public Dictionary<string, ObjectTemplate> objDict = new ();
 
+    public Color color;
+
     [MenuItem("Window/Object Template Editor")]
     public static void ShowWindow()
     {
@@ -20,6 +22,8 @@ public class ObjectTemplateEditorWindow : EditorWindow
     bool OnAddImage;
     bool OnAddText;
     bool OnGenerate;
+    Vector2 ScrollPos;
+
     void OnGUI() 
     {
         GUILayout.Label("Object Template Editor", EditorStyles.boldLabel);
@@ -27,7 +31,9 @@ public class ObjectTemplateEditorWindow : EditorWindow
         panelParent = EditorGUILayout.ObjectField("Panel Parent", panelParent, typeof(RectTransform), true) as RectTransform;
         if (gm != null)
         {
-            jsonText = EditorGUILayout.TextArea(jsonText, GUILayout.Height(500));
+            ScrollPos = EditorGUILayout.BeginScrollView(ScrollPos,GUILayout.Height(200));
+            jsonText = EditorGUILayout.TextArea(jsonText, GUILayout.ExpandHeight(true));
+            EditorGUILayout.EndScrollView();
 
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Load JSON"))
@@ -40,6 +46,7 @@ public class ObjectTemplateEditorWindow : EditorWindow
             }
             GUILayout.EndHorizontal();
         }
+        GUILayout.BeginHorizontal();
         if(GUILayout.Button("Add Button"))
         {
             OnAddButton = true;
@@ -55,46 +62,35 @@ public class ObjectTemplateEditorWindow : EditorWindow
             OnAddText = true;
             
         }
+        GUILayout.EndHorizontal();
+        color = EditorGUILayout.ColorField("Color", Color.black);
         if(GUILayout.Button("Generate Panel"))
         {
             OnGenerate = true;
             
         }
+        if(GUILayout.Button("Clear"))
+        {
+            objDict.Clear(); 
+            jsonText = "";
+        }
 
         if(OnAddButton)
         {
-            if(objDict.ContainsKey("Button")) return;
-            SaveToJSON("Button", Vector3.one, Vector3.one,Vector3.zero, Color.red);
-            template = JsonUtility.FromJson<ObjectTemplate>(jsonText);
-            objDict.Add("Button", template);
-            Debug.Log(objDict.Keys);
-            jsonText = JsonConvert.SerializeObject(objDict, Formatting.Indented);
-            // jsonText = JsonConvert.SerializeObject(objDict);
-            // var s =  JsonConvert.SerializeObject(objDict);
+            if (objDict.ContainsKey("Button"));
+                SetObjectElement("Button");
             OnAddButton = false;
         }
-        if(OnAddImage)
+        if (OnAddImage)
         {
             if(objDict.ContainsKey("Image")) return;
-            SaveToJSON("Image", Vector3.one, Vector3.one,Vector3.zero, Color.green);
-            template = JsonUtility.FromJson<ObjectTemplate>(jsonText);
-            objDict.Add("Image", template);
-            Debug.Log(objDict.Keys);
-            jsonText = JsonConvert.SerializeObject(objDict, Formatting.Indented);
-            // jsonText = JsonConvert.SerializeObject(objDict);
-            // var s =  JsonConvert.SerializeObject(objDict);
+            SetObjectElement("Image");
             OnAddImage = false;
         }
         if(OnAddText)
         {
             if(objDict.ContainsKey("Text")) return;
-            SaveToJSON("Text", Vector3.one, Vector3.one,Vector3.zero, Color.yellow);
-            template = JsonUtility.FromJson<ObjectTemplate>(jsonText);
-            objDict.Add("Text", template);
-            Debug.Log(objDict.Keys);
-            jsonText = JsonConvert.SerializeObject(objDict, Formatting.Indented);
-            // jsonText = JsonConvert.SerializeObject(objDict);
-            // var s =  JsonConvert.SerializeObject(objDict);
+            SetObjectElement("Text");
             OnAddText = false;
         }
         
@@ -104,19 +100,40 @@ public class ObjectTemplateEditorWindow : EditorWindow
             GenerateUI();
             OnGenerate = false;
         }
+    }
 
-        
+    private void SetObjectElement(string elementName)
+    {
+        SaveToJSON(elementName, Vector3.one, Vector3.one, Vector3.zero, Color.red);
+        template = JsonUtility.FromJson<ObjectTemplate>(jsonText);
+        objDict.Add(elementName, template);
+        Debug.Log(objDict.Keys);
+        jsonText = JsonConvert.SerializeObject(objDict, Formatting.Indented, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling =  ReferenceLoopHandling.Ignore,
+        });
     }
 
     void GenerateUI()
     {
-        GameObject prefab = Resources.Load<GameObject>("UIBase");
-        GameObject uiObject = Instantiate(prefab, panelParent.transform, false);
+        LoadFromJSON();
+        if(panelParent.Find("UIBase") == null)
+        {
+            GameObject prefab = Resources.Load<GameObject>("UIBase");
+            GameObject uiObject = Instantiate(prefab, panelParent.transform, false);
 
+        }
         foreach (var item in objDict)
         {
+
+            
             GameObject prefab1 = Resources.Load<GameObject>(item.Key);
             Instantiate(prefab1, panelParent.GetChild(0).transform, false);
+
+            prefab1.GetComponent<RectTransform>().localPosition = item.Value.position;
+            prefab1.GetComponent<RectTransform>().localScale = item.Value.scale;
+            
+            // prefab1.transform.localRotation = item.Value.rotation;
         }
     }
     // private void OnGUI()
