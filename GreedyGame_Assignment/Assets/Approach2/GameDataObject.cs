@@ -5,8 +5,4 @@ using UnityEngine;
 public class GameDataObject : ScriptableObject
 {
     public List <ObjectTemplate> objectTemplate = new List<ObjectTemplate>();
-
-    public void Ins()
-    {
-    }
 }

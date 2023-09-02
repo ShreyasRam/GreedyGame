@@ -1,78 +1,134 @@
 using UnityEngine;
 using UnityEditor;
-using Unity.VisualScripting;
-using System.Drawing;
 using UnityEngine.UI;
+using Codice.CM.Client.Differences;
+using System.IO;
 
 class ExtendedEditorWindow : EditorWindow 
 {
-
     protected SerializedObject serializedObject;
     protected SerializedProperty currentProperty;
     Vector2 ScrollPos;
     private string jsonText = "";
     private string selectedPropertyPath;
     protected SerializedProperty selectedProperty;
+    GameObject prefab;
+    GameObject uiObject;
+    GameObject gm;
     protected void DrawProperties(SerializedProperty property, bool drawChildren)
     {
         string lastPropPath = string.Empty;
-        // EditorGUILayout.BeginHorizontal();
+
         foreach (SerializedProperty property1 in property)
         {
-            if(property1.isArray && property1.propertyType == SerializedPropertyType.Generic)
-            {
-                EditorGUILayout.BeginHorizontal();
-                property1.isExpanded = EditorGUILayout.Foldout(property1.isExpanded, property1.displayName);
-                EditorGUILayout.EndHorizontal();
-
-                if(property1.isExpanded)
-                {
-                    EditorGUI.indentLevel ++;
-                    DrawProperties(property1, drawChildren);
-                    EditorGUI.indentLevel--;
-                }
-            }
-            else
-            {
-                if(!string.IsNullOrEmpty(lastPropPath) && property1.propertyPath.Contains(lastPropPath)) {continue;}
-                lastPropPath = property1.propertyPath;
-                EditorGUILayout.PropertyField(property1, drawChildren);
-            } 
-
+            if(!string.IsNullOrEmpty(lastPropPath) && property1.propertyPath.Contains(lastPropPath)) {continue;}
+            lastPropPath = property1.propertyPath;
+            EditorGUILayout.PropertyField(property1, drawChildren);
         }
-        // EditorGUILayout.EndHorizontal();
         
+        EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Convert to json"))
         {
             jsonText = JsonUtility.ToJson(serializedObject.targetObjects[0], prettyPrint: true);
-            Debug.Log(jsonText);
-            
+            // System.IO.File.WriteAllText(Application.dataPath + "/templateData.txt", jsonText);
         }
-        ScrollPos = EditorGUILayout.BeginScrollView(ScrollPos,GUILayout.Height(200));
+        
+        if (GUILayout.Button("instantiate"))
+        {
+            // Undo.RecordObject()
+            ClearScreen();
+
+            prefab = Resources.Load<GameObject>("Canvas");
+            uiObject = Instantiate(prefab);
+            GameDataObject s = (GameDataObject)property.serializedObject.targetObjects[0];
+
+            for (int i = 0; i < s.objectTemplate.Count; i++)
+            {
+                var p = s.objectTemplate[i];
+                CreateHierarchy(p.data, uiObject.transform);
+                // SetElement(p.data[i], uiObjects);
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+        ScrollPos = EditorGUILayout.BeginScrollView(ScrollPos,GUILayout.Height(600));
         jsonText = EditorGUILayout.TextArea(jsonText, GUILayout.ExpandHeight(true));
         EditorGUILayout.EndScrollView();
 
-        if (GUILayout.Button("instantiate"))
-        {
-            GameObject prefab = Resources.Load<GameObject>("Canvas");
-            GameObject uiObject = Instantiate(prefab);
-            GameDataObject s = (GameDataObject) property.serializedObject.targetObjects[0];
-            Debug.Log(s.objectTemplate[0].propertyType);
-            Resources.Load<GameObject>("Canvas");
-            foreach (var p in s.objectTemplate)
-            {
-                GameObject prefabs = Resources.Load<GameObject>(p.propertyType.ToString());
-                GameObject uiObjects = Instantiate(prefabs, uiObject.transform, true);
-                uiObjects.GetComponent<RectTransform>().localPosition = p.position;
-                uiObjects.GetComponent<RectTransform>().localScale = p.scale;
+    }
+    void CreateHierarchy(Data node, Transform parentTransform)
+    {
+        // Instantiate a GameObject from the prefab
+        // GameObject obj = Instantiate(prefab, parentTransform);
+        GameObject prefabss = Resources.Load<GameObject>(node.propertyType.ToString());
+        GameObject obj = Instantiate(prefabss, parentTransform, true);
+        // Set the name of the GameObject
+        obj.name = node.name;
+        obj.GetComponent<RectTransform>().anchoredPosition = node.position;
+        obj.GetComponent<RectTransform>().sizeDelta = new Vector2(node.width, node.height);
 
-                if(p.propertyType == PropertyType.Button)
-                {
-                    uiObjects.GetComponent<Button>().image.color = p.color;
-                    uiObjects.GetComponent<Button>().image.sprite = p.sprite;
-                }
-                // uiObjects.GetComponent<RectTransform>().localRotation = p.rotation;
+        SetElement(node, obj);
+        // Recursively create children objects
+        foreach (var childNode in node.children)
+        {
+            CreateHierarchy(childNode, obj.transform);
+        }
+    }
+
+    private static void ClearScreen()
+    {
+        Canvas[] foundCanvasObjects = FindObjectsOfType<Canvas>();
+        foreach (var canvas in foundCanvasObjects)
+        {
+            DestroyImmediate(canvas.gameObject);
+        }
+    }
+
+    private static void SetElement(Data data, GameObject uiObjects)
+    {
+        if (data.propertyType == PropertyType.Button)
+        {
+            Button button = uiObjects.GetComponent<Button>();
+            try
+            {
+                button.image.color = data.color;
+                button.image.sprite = data.sprite;
+                button.GetComponentInChildren<Text>().text = data.description;             
             }
+            catch (System.Exception)
+            {
+                //null exception
+            }
+
+        }
+        if (data.propertyType == PropertyType.Image)
+        {
+            Image image = uiObjects.GetComponent<Image>();
+            try
+            {
+                image.color = data.color;
+                image.sprite = data.sprite;       
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+
+        }
+        if (data.propertyType == PropertyType.Text)
+        {
+            Text text = uiObjects.GetComponent<Text>();
+            try
+            {
+                text.color = data.color;
+                text.text = data.description;  
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+
         }
     }
 
@@ -83,8 +139,15 @@ class ExtendedEditorWindow : EditorWindow
         window.Show();
     }
 
+
+    // public TextAsset loadFile;
     protected void DrawSidebar(SerializedProperty property)
     {
+        // loadFile = EditorGUILayout.ObjectField("Load", loadFile, typeof(TextAsset), false) as TextAsset;
+        // if (GUILayout.Button("Load Saved Data"))
+        // {
+        //     jsonText = loadFile.ToString();
+        // }
         if (GUILayout.Button("Add Item"))
         {
             property.InsertArrayElementAtIndex(property.arraySize);
@@ -106,9 +169,5 @@ class ExtendedEditorWindow : EditorWindow
             selectedProperty = serializedObject.FindProperty(selectedPropertyPath);
             
         }
-    }
-
-    void OnGUI() {
-        
     }
 }

@@ -5,6 +5,8 @@ using UnityEditor;
 
 class GameDataObjectEditorWindow : ExtendedEditorWindow {
 
+
+    Vector2 ScrollPoss;
     [MenuItem("GreedyGame_Assignment/GameDataObjectWindow")]
     public static void ShowWindow(GameDataObject dataObject) 
     {
@@ -28,6 +30,7 @@ class GameDataObjectEditorWindow : ExtendedEditorWindow {
         EditorGUILayout.EndVertical();
 
         EditorGUILayout.BeginVertical("box", GUILayout.ExpandHeight(true));
+        ScrollPoss = EditorGUILayout.BeginScrollView(ScrollPoss,GUILayout.Height(800));
         if(selectedProperty != null)
         {
             DrawProperties(selectedProperty, true);
@@ -36,6 +39,7 @@ class GameDataObjectEditorWindow : ExtendedEditorWindow {
         {
             EditorGUILayout.LabelField("Select an item from the list");
         }
+        EditorGUILayout.EndScrollView();
         serializedObject.ApplyModifiedProperties();
 
         EditorGUILayout.EndVertical();
