@@ -12,37 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1af6b5dde2080b4b9c9613e9cbb9e90, type: 3}
   m_Name: objectTemplate
   m_EditorClassIdentifier: 
-  objectTemplate:
-  - name: Root
-    propertyType: 0
-    position: {x: 4, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    width: 50
-    height: 50
-    sprite: {fileID: 0}
-    description: ddsd
-    children: []
-  - name: Root
-    propertyType: 0
-    position: {x: 4, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    width: 50
-    height: 50
-    sprite: {fileID: 0}
-    description: ddsd
-    children: []
-  - name: Root
-    propertyType: 0
-    position: {x: 4, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    width: 50
-    height: 50
-    sprite: {fileID: 0}
-    description: ddsd
-    children: []
+  objectTemplate: []
