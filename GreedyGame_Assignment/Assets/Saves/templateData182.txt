@@ -1,0 +1,197 @@
+{
+    "objectTemplate": [
+        {
+            "name": "Panel",
+            "propertyType": 0,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+            },
+            "width": 300.0,
+            "height": 100.0,
+            "sprite": {
+                "instanceID": 0
+            },
+            "description": "",
+            "children": [
+                {
+                    "name": "PlayButton",
+                    "propertyType": 0,
+                    "position": {
+                        "x": 0.0,
+                        "y": -30.0,
+                        "z": 0.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "color": {
+                        "r": 0.4905660152435303,
+                        "g": 0.48316124081611636,
+                        "b": 0.48316124081611636,
+                        "a": 1.0
+                    },
+                    "width": 50.0,
+                    "height": 30.0,
+                    "sprite": {
+                        "instanceID": 0
+                    },
+                    "description": "Play",
+                    "children": []
+                },
+                {
+                    "name": "Text",
+                    "propertyType": 2,
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 23.030000686645509,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "color": {
+                        "r": 0.0,
+                        "g": 0.0,
+                        "b": 0.0,
+                        "a": 1.0
+                    },
+                    "width": 1.0,
+                    "height": 1.0,
+                    "sprite": {
+                        "instanceID": 0
+                    },
+                    "description": "This is a object template generator demo!",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "name": "",
+            "propertyType": 0,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "color": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 0.0
+            },
+            "width": 0.0,
+            "height": 0.0,
+            "sprite": {
+                "instanceID": 0
+            },
+            "description": "",
+            "children": []
+        },
+        {
+            "name": "",
+            "propertyType": 0,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "color": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 0.0
+            },
+            "width": 0.0,
+            "height": 0.0,
+            "sprite": {
+                "instanceID": 0
+            },
+            "description": "",
+            "children": []
+        },
+        {
+            "name": "",
+            "propertyType": 0,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "color": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 0.0
+            },
+            "width": 0.0,
+            "height": 0.0,
+            "sprite": {
+                "instanceID": 0
+            },
+            "description": "",
+            "children": []
+        }
+    ]
+}

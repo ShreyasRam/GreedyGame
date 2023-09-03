@@ -19,12 +19,13 @@ class GameDataObjectEditorWindow : ExtendedEditorWindow {
     void OnGUI() 
     {
         if(serializedObject == null) return;
+        
         serializedObject.Update();
         currentProperty = serializedObject.FindProperty("objectTemplate");
 
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.BeginVertical("box", GUILayout.MaxWidth(150), GUILayout.ExpandHeight(true));
-
+        
         DrawSidebar(currentProperty);  
 
         EditorGUILayout.EndVertical();
