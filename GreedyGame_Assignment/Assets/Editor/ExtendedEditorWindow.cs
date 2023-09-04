@@ -150,31 +150,34 @@ class ExtendedEditorWindow : EditorWindow
         }
         if (data.propertyType == PropertyType.Image)
         {
-            Image image = uiTransform.GetComponent<Image>();
+            Image image = null;
             try
             {
+                image = uiTransform.GetComponent<Image>();
                 image.color = data.color;
                 image.sprite = data.sprite;       
             }
             catch (System.Exception)
             {
-                
-                throw;
+                if(image == null)
+                    throw new NullReferenceException("The Image Component is Missing");
             }
 
         }
         if (data.propertyType == PropertyType.Text)
         {
-            Text text = uiTransform.GetComponent<Text>();
+            Text text = null;
             try
             {
+                text = uiTransform.GetComponent<Text>();
                 text.color = data.color;
                 text.text = data.description;  
             }
             catch (System.Exception)
             {
                 
-                throw;
+                if(text == null)
+                    throw new NullReferenceException("The Text Component is Missing");
             }
 
         }
